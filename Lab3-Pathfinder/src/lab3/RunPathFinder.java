@@ -19,7 +19,7 @@ public class RunPathFinder {
 
 
     public static void main(String[] args) {
-    	args = ["random", "AdjacencyGraph", ];
+    	
         try {
             if (args.length != 5) throw new IllegalArgumentException();
             String algorithm = args[0], graphType = args[1], filePath = args[2], start = args[3], goal = args[4];
