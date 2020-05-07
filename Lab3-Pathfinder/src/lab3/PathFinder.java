@@ -101,19 +101,19 @@ public class PathFinder<V> {
 		HashMap<V, Double> distTo = new HashMap<V, Double>();
 		double cost = 0.0;
 		LinkedList<V> visited = new LinkedList<>();
-		Comparator<V> comparator = new Comparator<V>() {
-			public int compare(V term1, V term2) {
-				if (distTo.get(term1).doubleValue() > distTo.get(term2).doubleValue()) {
-					return 1;
-				} else if (distTo.get(term1).doubleValue() < distTo.get(term2).doubleValue()) {
-					return -1;
-				} else {
-					return 0;
-				}
-			}
-		};
-		//PriorityQueue<V> queue = new PriorityQueue<>(comparator);
-		PriorityQueue<V> queue = new PriorityQueue<>((v1,v2) -> Double.compare(distTo.get(v1), distTo.get(v2)));
+//		Comparator<V> comparator = new Comparator<V>() {
+//			public int compare(V term1, V term2) {
+//				if (distTo.get(term1).doubleValue() > distTo.get(term2).doubleValue()) {
+//					return 1;
+//				} else if (distTo.get(term1).doubleValue() < distTo.get(term2).doubleValue()) {
+//					return -1;
+//				} else {
+//					return 0;
+//				}
+//			}
+//		};
+//		PriorityQueue<V> queue = new PriorityQueue<>(comparator);
+		PriorityQueue<V> queue = new PriorityQueue<>((v1, v2) -> Double.compare(distTo.get(v1), distTo.get(v2)));
 
 		queue.add(start);
 		distTo.put(start, 0.0);
@@ -124,7 +124,7 @@ public class PathFinder<V> {
 			if (!visited.contains(v)) {
 				visited.add(v);
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, cost, visited/* Checka sen */, visitedNodes);
+					return new Result<>(true, start, goal, getDistance(edgeTo, goal), getPath(edgeTo, goal), visitedNodes);
 				}
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
@@ -142,17 +142,51 @@ public class PathFinder<V> {
 	}
 
 	public Result<V> searchAstar(V start, V goal) {
-		int visitedNodes = 0;
-		/********************
-		 * TODO: Task 3
-		 ********************/
+		int visitedNodes = 0;/********************
+								 * TODO: Task 3
+								 ********************/
 		return new Result<>(false, start, null, -1, null, visitedNodes);
 	}
 
-	private LinkedList<V> getPath(HashMap<V, DirectedEdge<V>> map) {
-		LinkedList<V> path = new LinkedList<>();
+//	private LinkedList<V> getPath(HashMap<V, DirectedEdge<V>> map, V goal) {
+//		LinkedList<V> path = new LinkedList<>();
+//		V current = goal;
+//		path.addFirst(goal);
+//		int i = 0;
+//		while() {
+//			V old = current;
+//			//current = map.get(old).from();
+//			map.get(old).from();
+//			path.addFirst(current);
+//			i++;
+//		}
+//		return path;
 
+	private LinkedList<V> getPath(HashMap<V, DirectedEdge<V>> map, V goal) {
+		LinkedList<V> path = new LinkedList<>();
+		boolean loop = true;
+		while (loop) {
+			path.addFirst(goal);
+			try {
+				goal = map.get(goal).from();
+			} catch (Exception e) {
+				loop = false;
+			}
+		}
 		return path;
 	}
-
+	
+	private double getDistance(HashMap<V,DirectedEdge<V>> map, V goal) {
+		double cost = 0.0;
+		boolean loop = true;
+		while (loop) {
+			try {
+				cost += map.get(goal).weight();
+				goal = map.get(goal).from();
+			} catch (Exception e) {
+				loop = false;
+			}
+		}
+		return cost;
+	}
 }
