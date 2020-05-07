@@ -105,9 +105,10 @@ public class PathFinder<V> {
 		distTo.put(start, 0.0);
 		while (!queue.isEmpty()) {
 			V v = queue.poll();
-			visitedNodes++;
+			
 			if (!visited.contains(v)) {
 				visited.add(v);
+				visitedNodes++;
 				if (v.equals(goal)) {
 					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
 				}
