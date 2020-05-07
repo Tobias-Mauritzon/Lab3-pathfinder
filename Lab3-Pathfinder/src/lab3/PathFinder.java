@@ -2,12 +2,16 @@ package lab3;
 
 
 import java.util.List;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.PriorityQueue;
 import java.util.Random;
 
 import java.util.stream.Collectors;
+
+import Autocomplete.Term;
 
 
 public class PathFinder<V> {
@@ -99,6 +103,44 @@ public class PathFinder<V> {
         /********************
          * TODO: Task 1 
          ********************/
+        HashMap<V, DirectedEdge<V>> edgeTo = new HashMap<V, DirectedEdge<V>>();
+        HashMap<V, Double> distTo = new HashMap<V, Double>();
+        double cost = 0.0;
+        LinkedList<V> visited = new LinkedList<>();
+        Comparator<V> comparator = new Comparator<V>() {
+			public int compare(V term1, V term2) {
+				if (distTo.get(term1).doubleValue() > distTo.get(term2).doubleValue()) {
+					return 1;
+				} else if (distTo.get(term1).doubleValue() < distTo.get(term2).doubleValue()) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		};
+        PriorityQueue<V> queue  = new PriorityQueue<>(comparator);
+        
+        queue.add(start);
+        distTo.put(start, 0.0);
+       
+        while(!queue.isEmpty()) {
+        	V v = queue.poll();
+        	if(!visited.contains(v)) {
+        		visited.add(v);
+        		if(v.equals(goal)) {
+        			return new Result<>(true, start, goal, cost, visited/*Checka sen*/, visitedNodes);
+        		}
+        		for(DirectedEdge e : graph.outgoingEdges(v)) {
+        			V w = (V)e.to();
+        			double newdist = distTo.get(v).doubleValue() + e.weight();
+        			if(distTo.get(w).doubleValue() > newdist) {
+        				distTo.put(w, Double.valueOf(newdist));
+						edgeTo.put(w, e);
+        				queue.add(w);
+        			}
+        		}
+        	}	
+        }
         return new Result<>(false, start, null, -1, null, visitedNodes);
     }
     
@@ -109,6 +151,10 @@ public class PathFinder<V> {
          * TODO: Task 3
          ********************/
         return new Result<>(false, start, null, -1, null, visitedNodes);
+    }
+    
+    private LinkedList<V> getPath(HashMap<V, DirectedEdge<V>> map) {
+    	
     }
 
 }
