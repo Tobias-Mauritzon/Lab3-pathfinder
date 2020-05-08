@@ -70,7 +70,7 @@ public class WordLadder implements DirectedGraph<String> {
          ********************/
     	LinkedList<DirectedEdge<String>> list = new LinkedList<DirectedEdge<String>>();
     	
-    	
+    	//kommentar
     	
     	DirectedEdge<String> edge = new DirectedEdge<String>(word,"hej", 20);
     	
