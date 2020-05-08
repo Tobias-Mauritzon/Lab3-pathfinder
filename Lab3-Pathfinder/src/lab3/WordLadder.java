@@ -68,7 +68,15 @@ public class WordLadder implements DirectedGraph<String> {
         /********************
          * TODO: Task 2
          ********************/
-        return new LinkedList<>();
+    	LinkedList<DirectedEdge<String>> list = new LinkedList<DirectedEdge<String>>();
+    	
+    	
+    	
+    	DirectedEdge<String> edge = new DirectedEdge<String>(word,"hej", 20);
+    	
+    	list.addLast(edge);
+    	
+        return list;
     }
 
 
