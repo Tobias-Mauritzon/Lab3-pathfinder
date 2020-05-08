@@ -68,7 +68,51 @@ public class WordLadder implements DirectedGraph<String> {
         /********************
          * TODO: Task 2
          ********************/
+    	
     	LinkedList<DirectedEdge<String>> list = new LinkedList<DirectedEdge<String>>();
+    	
+    	// för varje karatär i charset 
+    	
+    		// kolla om det finns ord som matchar newWord i dictionary 
+    		// om du byter en karakträ i word
+    	String s = word;
+    	/*
+    	for(int i = 0; i < word.length(); i++){
+    		s = word;
+    		char r = '.';
+    		StringBuilder newWord = new StringBuilder(s);
+    		newWord.setCharAt(i, r);
+    		String newString = newWord.toString();
+    		
+    		
+    		
+    		for(String c : dictionary) {
+    			if(c.matches(newString)) {
+    				list.addLast(new DirectedEdge<String>(word,c, 1));
+    				System.out.println(c);
+    			}
+    		
+    		}
+    	}
+    	*/
+    	
+    	for(int i = 0; i < word.length(); i++){
+    		 		  		   		
+    		
+    		for(char c : charset) {
+    			StringBuilder newWord = new StringBuilder(word);
+    			newWord.setCharAt(i, c);
+    			String newString = newWord.toString();
+    			
+    			if(dictionary.contains(newString)) {
+    				list.addLast(new DirectedEdge<String>(word,newString, 1));
+    				System.out.println(newString);
+    			}
+    		}
+    	}
+    	
+    	//System.out.println(list);
+    //	charset.iterator() word.charAt(0);
     	
     	// Ta in ord kork
     	
@@ -83,9 +127,6 @@ public class WordLadder implements DirectedGraph<String> {
     	// list.addLast(new DirectedEdge<String>(word,"Toek", 1));
 
     	
-    	DirectedEdge<String> edge = new DirectedEdge<String>(word,"hej", 20);
-    	
-    	list.addLast(edge);
     	
         return list;
     }
