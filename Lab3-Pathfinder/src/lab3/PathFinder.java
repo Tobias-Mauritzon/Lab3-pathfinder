@@ -154,13 +154,16 @@ public class PathFinder<V> {
 					V w = (V) e.to();
 					
 					// kod här tror jag
+					double costGuess = graph.guessCost(goal, w);
+					
+					
 					
 					double newdist = distTo.get(v).doubleValue() + e.weight();
 					
 					// remaining
 					
 					if (!distTo.containsKey(w) || distTo.get(w).doubleValue() > newdist) {
-						distTo.put(w, Double.valueOf(newdist));
+						distTo.put(w, Double.valueOf(newdist + costGuess));
 						edgeTo.put(w, e);
 						queue.add(w);
 					}
