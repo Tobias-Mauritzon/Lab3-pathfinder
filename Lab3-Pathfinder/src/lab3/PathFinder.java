@@ -141,9 +141,7 @@ public class PathFinder<V> {
 		distTo.put(start, 0.0);
 		while (!queue.isEmpty()) {
 			V v = queue.poll();
-			/*	Kod här tror jag
-			 * 	
-			 */
+			
 			
 			if (!visited.contains(v)) {
 				visited.add(v);
@@ -154,7 +152,13 @@ public class PathFinder<V> {
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
 					V w = (V) e.to();
+					
+					// kod här tror jag
+					
 					double newdist = distTo.get(v).doubleValue() + e.weight();
+					
+					// remaining
+					
 					if (!distTo.containsKey(w) || distTo.get(w).doubleValue() > newdist) {
 						distTo.put(w, Double.valueOf(newdist));
 						edgeTo.put(w, e);
