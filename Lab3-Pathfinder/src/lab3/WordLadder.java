@@ -102,8 +102,16 @@ public class WordLadder implements DirectedGraph<String> {
 		/********************
 		 * TODO: Task 4
 		 ********************/
-
-		return 0;
+		double differences = 0.0;
+		char[] vArr = v.toCharArray();
+		char[] wArr = w.toCharArray();
+		
+		for(int i = 0; i < vArr.length; i++) {
+			if(vArr[i] != wArr[i]) {
+				differences++;
+			}
+		}
+		return differences;
 	}
 
 	/**
