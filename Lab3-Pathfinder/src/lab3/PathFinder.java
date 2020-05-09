@@ -132,6 +132,38 @@ public class PathFinder<V> {
 		/********************
 		 * TODO: Task 3
 		 ********************/
+		HashMap<V, DirectedEdge<V>> edgeTo = new HashMap<V, DirectedEdge<V>>();
+		HashMap<V, Double> distTo = new HashMap<V, Double>();
+		HashSet<V> visited = new HashSet<>();
+		PriorityQueue<V> queue = new PriorityQueue<>((v1, v2) -> Double.compare(distTo.get(v1), distTo.get(v2)));
+
+		queue.add(start);
+		distTo.put(start, 0.0);
+		while (!queue.isEmpty()) {
+			V v = queue.poll();
+			/*	Kod här tror jag
+			 * 	
+			 */
+			
+			if (!visited.contains(v)) {
+				visited.add(v);
+				visitedNodes++;
+				if (v.equals(goal)) {
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
+				}
+
+				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
+					V w = (V) e.to();
+					double newdist = distTo.get(v).doubleValue() + e.weight();
+					if (!distTo.containsKey(w) || distTo.get(w).doubleValue() > newdist) {
+						distTo.put(w, Double.valueOf(newdist));
+						edgeTo.put(w, e);
+						queue.add(w);
+					}
+				}
+			}
+		}
+		
 		return new Result<>(false, start, null, -1, null, visitedNodes);
 	}
 
@@ -145,6 +177,16 @@ public class PathFinder<V> {
 			} catch (Exception e) {
 				loop = false;
 			}
+		}
+		return path;
+	}
+	
+	private LinkedList<V> getPath2(HashMap<V, DirectedEdge<V>> map, V goal, V start) {
+		LinkedList<V> path = new LinkedList<>();
+		
+		while (!(goal == start)) {
+			path.addFirst(goal);
+			goal = map.get(goal).from();
 		}
 		return path;
 	}
