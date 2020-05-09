@@ -107,8 +107,8 @@ public class PathFinder<V> {
 				visited.add(v);
 				visitedNodes++;
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath2(edgeTo, goal, start),
-							visitedNodes);
+					//return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath2(edgeTo, goal, start), visitedNodes);
 				}
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
@@ -145,8 +145,8 @@ public class PathFinder<V> {
 				visitedNodes++;
 
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal),
-							visitedNodes);
+					//return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath2(edgeTo, goal, start), visitedNodes);
 				}
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
@@ -187,7 +187,7 @@ public class PathFinder<V> {
 			path.addFirst(goal);
 			goal = map.get(goal).from();
 		}
-		path.addFirst(goal);
+		path.addFirst(start);
 		return path;
 	}
 }
