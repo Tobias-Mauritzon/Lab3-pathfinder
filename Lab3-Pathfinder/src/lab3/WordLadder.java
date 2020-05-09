@@ -68,14 +68,11 @@ public class WordLadder implements DirectedGraph<String> {
         /********************
          * TODO: Task 2
          ********************/
-    	
+    	//init the list to return
     	LinkedList<DirectedEdge<String>> list = new LinkedList<DirectedEdge<String>>();
     	
-    	// för varje karatär i charset 
     	
-    		// kolla om det finns ord som matchar newWord i dictionary 
-    		// om du byter en karakträ i word
-    	String s = word;
+    	//String s = word;
     	/*
     	for(int i = 0; i < word.length(); i++){
     		s = word;
@@ -96,6 +93,11 @@ public class WordLadder implements DirectedGraph<String> {
     	}
     	*/
     	
+    	/* for each char in word
+    	 * 	replace the char with a char from charset and check if 
+    	 * 		the new word exists in dictionary if
+    	 * 			it exists add word to list   	 			
+    	 */
     	for(int i = 0; i < word.length(); i++){
     		 		  		   		
     		
@@ -111,23 +113,8 @@ public class WordLadder implements DirectedGraph<String> {
     		}
     	}
     	
-    	//System.out.println(list);
-    //	charset.iterator() word.charAt(0);
-    	
-    	// Ta in ord kork
-    	
-    	// kork.length
-    	
-    	// tar dictionary 
-    	
-    	// kollar efter ork i [1] - [3]
-    	
-    	// Ändra ord  o r k
-    	
-    	// list.addLast(new DirectedEdge<String>(word,"Toek", 1));
 
-    	
-    	
+    	// returns list with directedEdges from word
         return list;
     }
 

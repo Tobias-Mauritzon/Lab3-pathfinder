@@ -128,9 +128,10 @@ public class PathFinder<V> {
 	}
 
 	public Result<V> searchAstar(V start, V goal) {
-		int visitedNodes = 0;/********************
-								 * TODO: Task 3
-								 ********************/
+		int visitedNodes = 0;
+		/********************
+		 * TODO: Task 3
+		 ********************/
 		return new Result<>(false, start, null, -1, null, visitedNodes);
 	}
 
