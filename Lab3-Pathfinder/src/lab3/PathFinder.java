@@ -93,9 +93,6 @@ public class PathFinder<V> {
 
 	public Result<V> searchDijkstra(V start, V goal) {
 		int visitedNodes = 0;
-		/********************
-		 * TODO: Task 1
-		 ********************/
 		HashMap<V, DirectedEdge<V>> edgeTo = new HashMap<V, DirectedEdge<V>>();
 		HashMap<V, Double> distTo = new HashMap<V, Double>();
 		HashSet<V> visited = new HashSet<>();
@@ -105,13 +102,13 @@ public class PathFinder<V> {
 		distTo.put(start, 0.0);
 		while (!queue.isEmpty()) {
 			V v = queue.poll();
-			
+
 			if (!visited.contains(v)) {
 				visited.add(v);
 				visitedNodes++;
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath2(edgeTo, goal, start), visitedNodes);
-					//return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal),
+							visitedNodes);
 				}
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
@@ -130,48 +127,42 @@ public class PathFinder<V> {
 
 	public Result<V> searchAstar(V start, V goal) {
 		int visitedNodes = 0;
-		/********************
-		 * TODO: Task 3
-		 ********************/
 		HashMap<V, DirectedEdge<V>> edgeTo = new HashMap<V, DirectedEdge<V>>();
 		HashMap<V, Double> distTo = new HashMap<V, Double>();
+		HashMap<V, Double> costGuess = new HashMap<V, Double>();
 		HashSet<V> visited = new HashSet<>();
-		PriorityQueue<V> queue = new PriorityQueue<>((v1, v2) -> Double.compare(distTo.get(v1), distTo.get(v2)));
+		PriorityQueue<V> queue = new PriorityQueue<>((v1, v2) -> Double.compare(costGuess.get(v1), costGuess.get(v2)));
 
 		queue.add(start);
 		distTo.put(start, 0.0);
+		costGuess.put(start, graph.guessCost(start, goal));
+
 		while (!queue.isEmpty()) {
 			V v = queue.poll();
-			
-			
 			if (!visited.contains(v)) {
+
 				visited.add(v);
 				visitedNodes++;
+
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal),
+							visitedNodes);
 				}
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
 					V w = (V) e.to();
-					
-					// kod här tror jag
-					double costGuess = graph.guessCost(goal, w);										
-					
-					double newdist = distTo.get(v).doubleValue() + e.weight();					
-			
-					// remaining
-					
-					
-					
+					double newdist = distTo.get(v).doubleValue() + e.weight();
+
 					if (!distTo.containsKey(w) || distTo.get(w).doubleValue() > newdist) {
-						distTo.put(w, Double.valueOf(newdist + costGuess));
+						distTo.put(w, Double.valueOf(newdist));
+						costGuess.put(w, Double.valueOf(distTo.get(w) + graph.guessCost(w, goal)));
 						edgeTo.put(w, e);
 						queue.add(w);
 					}
 				}
 			}
 		}
-		
+
 		return new Result<>(false, start, null, -1, null, visitedNodes);
 	}
 
@@ -188,10 +179,10 @@ public class PathFinder<V> {
 		}
 		return path;
 	}
-	
+
 	private LinkedList<V> getPath2(HashMap<V, DirectedEdge<V>> map, V goal, V start) {
 		LinkedList<V> path = new LinkedList<>();
-		
+
 		while (!(map.get(goal).from().equals(start))) {
 			path.addFirst(goal);
 			goal = map.get(goal).from();
