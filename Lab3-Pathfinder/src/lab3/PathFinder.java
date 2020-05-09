@@ -107,7 +107,7 @@ public class PathFinder<V> {
 				visited.add(v);
 				visitedNodes++;
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal),
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath2(edgeTo, goal, start),
 							visitedNodes);
 				}
 
@@ -183,10 +183,11 @@ public class PathFinder<V> {
 	private LinkedList<V> getPath2(HashMap<V, DirectedEdge<V>> map, V goal, V start) {
 		LinkedList<V> path = new LinkedList<>();
 
-		while (!(map.get(goal).from().equals(start))) {
+		while (!(goal.equals(start))) {
 			path.addFirst(goal);
 			goal = map.get(goal).from();
 		}
+		path.addFirst(goal);
 		return path;
 	}
 }
