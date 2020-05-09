@@ -147,20 +147,20 @@ public class PathFinder<V> {
 				visited.add(v);
 				visitedNodes++;
 				if (v.equals(goal)) {
-					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath2(edgeTo, goal, start), visitedNodes);
+					return new Result<>(true, start, goal, distTo.get(goal).doubleValue(), getPath(edgeTo, goal), visitedNodes);
 				}
 
 				for (DirectedEdge<V> e : graph.outgoingEdges(v)) {
 					V w = (V) e.to();
 					
 					// kod här tror jag
-					double costGuess = graph.guessCost(goal, w);
+					double costGuess = graph.guessCost(goal, w);										
 					
-					
-					
-					double newdist = distTo.get(v).doubleValue() + e.weight();
-					
+					double newdist = distTo.get(v).doubleValue() + e.weight();					
+			
 					// remaining
+					
+					
 					
 					if (!distTo.containsKey(w) || distTo.get(w).doubleValue() > newdist) {
 						distTo.put(w, Double.valueOf(newdist + costGuess));
